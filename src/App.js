@@ -13,12 +13,16 @@ function App() {
             {id:2,title:'Ruby',body:'Description'},
             {id:3,title:'C++',body:'Description'},
             {id:4,title:'C++',body:'Description'},
-            {id:4,title:'C++',body:'Description'},
+            {id:5,title:'C++',body:'Description'},
         ]
     )
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
+    }
+
+    const removePost = (remPost) => {
+        setPosts(posts.filter(post => post.id !== remPost.id))
     }
 
 
@@ -27,8 +31,8 @@ function App() {
 
   return (
     <div className="App">
-       <PostForm create={createPost}/>
-       <PostList posts={posts} title={'Список постов'}/>
+       <PostForm create={createPost} />
+       <PostList posts={posts} remove={removePost} title={'Список постов'}/>
     </div>
   );
 }
