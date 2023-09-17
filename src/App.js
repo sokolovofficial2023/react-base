@@ -4,6 +4,7 @@ import PostList from "./components/PostList";
 import MyButton from "./components/UI/button/MyButton";
 import MyInput from "./components/UI/input/MyInput";
 import PostForm from "./components/PostForm";
+import MySelect from "./components/UI/select/MySelect";
 
 function App() {
 
@@ -17,6 +18,8 @@ function App() {
         ]
     )
 
+    const [selectSort, setSelectSort] = useState()
+    const [searchQuery, setSearchQuery] = useState('')
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
     }
@@ -25,14 +28,31 @@ function App() {
         setPosts(posts.filter(post => post.id !== remPost.id))
     }
 
-
-
-
-
+    const sortPost = (sort) =>{
+        setSelectSort(sort)
+        setPosts([...posts].sort((a,b) => a[sort].localeCompare(b[sort])))
+        console.log(selectSort)
+    }
+    
   return (
     <div className="App">
-       <PostForm create={createPost} />
-       <PostList posts={posts} remove={removePost} title={'Список постов'}/>
+        <PostForm create={createPost}/>
+        <MyInput
+            value={searchQuery}
+            placeholder='Поиск....'
+            onChange={e => setSearchQuery(e.target.value)}
+        />
+        <MySelect
+            value={selectSort}
+            onChange={sortPost}
+            defaultValue={'Сортировать по'}
+            option={[
+                {value:'body', name:'По описанию'},
+                {value:'title', name: 'По названию'}
+            ]}
+        />
+
+        <PostList posts={posts} remove={removePost} title={'Список постов'}/>
     </div>
   );
 }
